@@ -26,10 +26,12 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/public").permitAll()
+                        //.requestMatchers("/", "/public").permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(withDefaults())
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .successHandler((request, response, authentication) -> response.sendRedirect("/"))
+                )
                 .logout(logout -> logout
                         .addLogoutHandler(logoutHandler()));
         return http.build();
