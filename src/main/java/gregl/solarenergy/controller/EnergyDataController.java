@@ -28,7 +28,7 @@ public class EnergyDataController {
         try {
             EnergyDataList data = XmlXsdUtil.unmarshal(xmlData, EnergyDataList.class);
             model.addAttribute("energyDataList", data.getEnergyData());
-            return "dataTableView";
+            return "dataTableView :: energyDataTable";
         } catch (Exception e) {
             model.addAttribute("error", "Failed to parse and validate XML: " + e.getMessage());
             return "errorView";

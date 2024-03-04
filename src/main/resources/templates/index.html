@@ -1,3 +1,4 @@
+<!-- src/main/resources/templates/index.html -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
@@ -5,12 +6,20 @@
     <meta charset="UTF-8">
     <title>This is Solar Energy App</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link href="/static/css/solar-energy.css" rel="stylesheet" th:href="@{/css/solar-energy.css}"/>
+
+    <!-- JS -->
+    <script src="/static/js/jquery-3.7.1.min.js" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+    <script src="/static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
 </head>
 
-<body class="d-flex h-100 text-center text-white bg-dark">
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<body class="d-flex h-100 text-center text-white bg-dark justify-content-center">
+<div class="cover-container justify-content-center">
+
+    <!-- ======= Header ======= -->
     <header class="p-3 mb-3 border-bottom">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -21,9 +30,9 @@
                 </a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-                    <li><a href="#" class="nav-link px-2 link-light">Energy Forecast</a></li>
-                    <li><a href="#" class="nav-link px-2 link-light">Weather Forecast</a></li>
+                    <li><a href="#home" class="btn btn-link px-2 link-secondary" onclick="showSection('home')">Home</a></li>
+                    <li><a href="#energy" class="btn btn-link px-2 link-light" onclick="showSection('energy')">Energy Forecast</a></li>
+                    <li><a href="#weather" class="btn btn-link px-2 link-light" onclick="showSection('weather')" >Weather Forecast</a></li>
                 </ul>
 
                 <div class="dropdown text-end">
@@ -56,26 +65,129 @@
     </header>
 
     <main class="px-3">
-        <h1>Hybrid Energy Forecasting.</h1>
-        <p class="lead">Forecasting production from wind and solar power plants, and making effective decisions under forecast uncertainty, are essential capabilities in low-carbon energy systems.</p>
-        <p class="lead">
-            <a href="#" class="btn btn-lg btn-secondary fw-bold border-white ">Learn more</a>
-        </p>
+
+        <!-- ======= Home Section ======= -->
+        <section id="home">
+            <div class="flex-column col-12">
+                <h1>Hybrid Energy Forecasting.</h1>
+                <p class="lead">Forecasting production from wind and solar power plants, and making effective decisions under forecast uncertainty, are essential capabilities in low-carbon energy systems.</p>
+                <p class="lead">
+                    <a href="#learn-more" class="btn btn-lg btn-secondary fw-bold border-white " onclick="showSection('learn-more')">Learn more</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- ======= Learn more Section ======= -->
+        <section id="learn-more" class="solar-energy-hidden-section">
+            <div class="flex-column col-12">
+                <h1>Hybrid Energy Forecasting.</h1>
+                <hr>
+                <h3>Hybrid Power Forecasting</h3>
+                <div class="text-start">
+                    <p>
+                        The forecasting track requires participants to produce probabilistic forecasts of the energy generation from a hybrid power plant comprising the Hornsea 1 wind farm and the combined solar capacity of East England, with a combined capacity of approximately 3.6GW. Forecasts in the form of quantiles from 10% to 90% in increments of 10% are required for each half-hour period of the day-ahead. Forecasts will be scored using the Pinball Loss.
+                    </p>
+                    <p>
+                        For a forecast 𝑞̂𝛼 of the 𝛼% quantile, and observation 𝑦, the Pinball Loss is given by 𝐿(𝑦, 𝑞̂𝛼) = {(𝑦 − 𝑞̂𝛼)𝛼 if 𝑦 ≥ 𝑞̂𝛼 (𝑞̂𝛼 − 𝑦)(1 − 𝛼) if 𝑦 < 𝑞̂𝛼 which is averaged across quantiles 𝛼 = 0.1,0.2, … ,0.9 and time periods to give a final score.
+                    </p>
+                    <p>
+                        The target variable 𝑦 is total energy generation from the hybrid power plant in units of MWh for each 30-minute settlement period plus energy curtailed following instructions from the transmission system operator. Data on these instructions, which are called “Bid Offer Acceptances” (BOA) are provided by the organisers.
+                    </p>
+                    <p>
+                        The Hornsea 1 wind farm is comprised of three balancing mechanism units, T_HOWAO-1, T_HOWAO- 2 and T_HOWAO-3, which are metered separately, and receive BOAs individually. The source of generation data is the B1610 data field from Elexon’s Balancing Mechanism Reporting Service (“Actual Generation Per Generation Unit”), and the source of BOA data is DERBMDATA (“Derrived BM Unit Data”), both from Elexon. The competition API aggregates actual generation and BOA data from these three units automatically.
+                    </p>
+                    <p>
+                        The solar component of the hybrid power plant is the aggregate solar capacity in East England (PES Region 10). The capacity and actual generation is estimated by Sheffield Solar and is not subject to any BOAs. The source of generation data is the Sheffield Solar PV_Live API (v4). The competition API aggregates data from all sub-regions of PES Region 10 automatically.
+                    </p>
+                    <p>
+                        Warning: Take care, wind and solar generation data is average power in units of mega-watts (MW), which must be converted to energy in units of mega-watthours (MWh) for each 30-minute period. BOA data are already in unis of MWh, with negative values indicating curtailed energy. A power plant generating at an average power of 2MW for 30-minutes produces 1MWh of energy.
+                    </p>
+                </div>
+                <hr>
+                <h3>Energy Trading</h3>
+                <div class="text-start">
+                    <p>
+                        The trading track requires participants to trade the energy produced from the hybrid power plant in the day-ahead electricity market. This track is based on Great Britain’s wholesale electricity market, which features a day-ahead auction and single-price imbalance settlement.
+                    </p>
+                    <p>
+                        This track is scored according to revenue. Participants’ score revenue from the day-ahead market equal to the volume they trade multiplied by the Day-ahead Price (DAP, units £/MWh), however, the difference between the volume of energy traded and actual generation is then settled at the imbalance price (units £/MWh). If actual generation exceeds the traded volume, the excess is sold at the imbalance price; however, if generation is less than the traded volume, the deficit is purchased at the imbalance price.
+                    </p>
+                    <p>
+                        In practice, a market participant’s own imbalance volume, the difference between their actual generation and traded volume) will influence the system’s net imbalance volume and therefor the imbalance price. We replicate this effect for the purpose of the competition by calculating an imbalance price for each participant based on the actual Single System Price (SSP) and the participant’s imbalance volume. A participant’s imbalance price is given by 𝑆𝑆𝑃 − 0.07 × (𝐴𝑐𝑡𝑢𝑎𝑙 − 𝑇𝑟𝑎𝑑𝑒), where 0.07 is the regression coefficient between the net imbalance volume and imbalance price calculated from recent historic data, and therefore represents the average impact of a changes in imbalance volume on the SSP.
+                    </p>
+                    <p>
+                        For each half-hour period, revenue for a participant is calculated as 𝑅𝑒𝑣𝑒𝑛𝑢𝑒 = 𝑇𝑟𝑎𝑑𝑒 × 𝐷𝐴𝑃 + (𝐴𝑐𝑡𝑢𝑎𝑙 − 𝑇𝑟𝑎𝑑𝑒) × (𝑆𝑆𝑃 − 0.07 × (𝐴𝑐𝑡𝑢𝑎𝑙 − 𝑇𝑟𝑎𝑑𝑒)) and this is summed over the competition period to give a final score.
+                    </p>
+                    <p>
+                        The volume of energy traded in a single period is limited to the range 0 MWh to 1800 MWh, the maximum generation output of the hybrid power plant. Bids outside of this range will be rejected by the submission API. Actual generation is the same as the target variable in the forecasting track, i.e. the total generation of Hornsea 1 wind farm and the solar capacity in East England, plus bid and offer accepted volumes.
+                    </p>
+                    <p>
+                        The Day-ahead Price here is the Intermittent Market Reference Price, published by the Low Carbon Contracts Company. It is a weighted average of the prices from Great Britain’s two day-ahead auctions, operated by NordPool and EPEX Spot.
+                    </p>
+                    <p>
+                        The SSP is calculated and distributed by Elexon. This price is subject to revision by Elexon and the most recent available data will be used in competition scoring.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======= Energy Forecast Section ======= -->
+        <section id="energy" class="solar-energy-hidden-section">
+            <div class="row d-flex justify-content-center">
+                <h1>Energy Forecast</h1>
+                <!-- Form within a centered card -->
+                <div class="card bg-dark col-md-6 my-4">
+                    <div class="card-body">
+                        <form id="dataForm" action="#" method="get" class="row g-3">
+                            <div class="col-md-6">
+                                <label for="year" class="form-label">Year</label>
+                                <input type="text" class="form-control" id="year" name="year" placeholder="2023" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="month" class="form-label">Month</label>
+                                <input type="text" class="form-control" id="month" name="month" placeholder="10" required>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-info">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Energy data table within a card -->
+                <div class="card bg-light col-md-10 my-4">
+                    <div class="card-body" id="energyDataTable">
+                        <div th:replace="~{dataTableView :: energyDataTable(${energyDataList})}"></div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ======= Weather Forecast Section ======= -->
+        <section id="weather" class="solar-energy-hidden-section">
+            <div class="flex-column col-12">
+                <h1>Weather Forecast</h1>
+            </div>
+        </section>
+
     </main>
 
+    <!-- ======= Footer ======= -->
     <footer class="mt-auto text-white-50">
         <div class="container">
             <p>This is Solar Energy App.</p>
             <span class="text-muted">Dataset source: Jethro Browell, Sebastian Haglund, Henrik Kälvegren, Edoardo Simioni, Ricardo Bessa, Yi Wang, October 11, 2023, "Hybrid Energy Forecasting and Trading Competition", IEEE Dataport, doi: https://dx.doi.org/10.21227/5hn0-8091.s </span>
         </div>
+
+        <!-- Login button -->
+        <div sec:authorize="!isAuthenticated()">
+            <a class="btn" th:href="@{/oauth2/authorization/okta}">Log In</a>
+        </div>
     </footer>
 </div>
 
-<div sec:authorize="!isAuthenticated()">
-    <a class="btn" th:href="@{/oauth2/authorization/okta}">Log In</a>
-</div>
+<script src="/static/js/solar-energy-scripts.js" th:src="@{/js/solar-energy-scripts.js}"></script>
 
-<script src="/static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
 
 </body>
 </html>
