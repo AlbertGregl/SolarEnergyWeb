@@ -4,12 +4,17 @@ import gregl.solarenergy.model.EnergyData;
 import gregl.solarenergy.model.EnergyDataList;
 import gregl.solarenergy.service.EnergyDataService;
 import gregl.solarenergy.validationutil.XmlXsdUtil;
+
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
+import java.io.IOException;
 
 
 @Controller
@@ -18,6 +23,7 @@ import javax.xml.bind.JAXBException;
 public class EnergyDataController {
 
     private final EnergyDataService energyDataService;
+
 
     @GetMapping("byYearMonth.html")
     public String fetchApiDataByYearMonth(@RequestParam("year") Integer year, @RequestParam("month") Integer month, Model model) {
@@ -33,26 +39,18 @@ public class EnergyDataController {
         }
     }
 
-    @GetMapping("/add.html")
-    public String showAddEnergyDataForm(Model model) {
-        model.addAttribute("energyData", new EnergyData());
-        return "addEnergyDataForm";
-    }
-
     @PostMapping("/add.html")
-    public String addEnergyData(@ModelAttribute EnergyData energyData, Model model) {
+    public String addEnergyData(@ModelAttribute EnergyData energyData, RedirectAttributes redirectAttributes) {
         try {
             energyData.setDtm(energyData.getDtmAsInstant());
             String xmlData = XmlXsdUtil.marshal(energyData);
             energyDataService.addEnergyData(xmlData);
-            return "redirect:/#energy";
-        } catch (JAXBException e) {
-            model.addAttribute("error", "Failed to marshal XML: " + e.getMessage());
-            return "errorView";
-        } catch (Exception e) {
-            model.addAttribute("error", "An error occurred: " + e.getMessage());
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Energy data added successfully!");
+            return "redirect:/";
+        } catch (JAXBException | IOException | SAXException e) {
             return "errorView";
         }
     }
-
 }

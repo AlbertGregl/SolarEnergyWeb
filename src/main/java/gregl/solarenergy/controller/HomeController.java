@@ -1,5 +1,6 @@
 package gregl.solarenergy.controller;
 
+import gregl.solarenergy.model.EnergyData;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ public class HomeController {
         if (principal != null) {
             model.addAttribute("profile", principal.getClaims());
         }
+        model.addAttribute("energyData", new EnergyData());
         return "index";
     }
 

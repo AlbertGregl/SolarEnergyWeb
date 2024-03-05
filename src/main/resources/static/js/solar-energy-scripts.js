@@ -1,3 +1,10 @@
+/* toasts */
+if (document.querySelector('.toast.show')) {
+    var toastEl = document.getElementById('successToast');
+    var toast = new bootstrap.Toast(toastEl);
+    toast.show();
+}
+
 /* table rendering in the fragment */
 document.getElementById('dataForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -25,6 +32,15 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
 
 /*SECTIONS; function that will show the selected section and hide the other sections*/
 function showSection(sectionId) {
+
+    if (sectionId === 'energy')
+    {
+        energyDataModal.style.display = 'block';
+    } else
+    {
+        energyDataModal.style.display = 'none';
+    }
+
     console.log("Showing section:", sectionId);
     const sections = document.querySelectorAll('section');
     for (const section of sections) {

@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 </head>
-    <body>
-        <div class="container mt-5">
-            <h2>Error</h2>
-            <p>There was an error processing your request. Please try again later.</p>
-        </div>
-    </body>
+<body>
+<div class="container mt-5">
+    <div class="alert alert-danger" role="alert">
+        <h2 class="alert-heading">Error</h2>
+        <p>There was an error processing your request. Please try again later.</p>
+    </div>
+</div>
+<script src="/static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
 </html>

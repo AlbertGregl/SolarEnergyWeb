@@ -40,6 +40,7 @@
                         </a>
                     </li>
                     <li><a href="#energy" class="btn btn-link px-2 link-light" onclick="showSection('energy')">Energy Forecast</a></li>
+                    <li><a id="energyDataModal" href="#" data-bs-toggle="modal" data-bs-target="#addEnergyDataModal" class="btn btn-info px-2 link-light solar-energy-hidden-section">New Energy Data</a></li>
                     <li><a href="#weather" class="btn btn-link px-2 link-light" onclick="showSection('weather')" >Weather Forecast</a></li>
                 </ul>
 
@@ -74,8 +75,84 @@
 
     <main class="px-3">
 
+        <!-- ======= Add Energy Data Modal ======= -->
+        <div class="modal fade" id="addEnergyDataModal" tabindex="-1" aria-labelledby="addEnergyDataModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addEnergyDataModalLabel">Add Energy Data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="energyDataForm" th:action="@{/mvc/energydata/add.html}" th:object="${energyData}" method="post">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div>
+                                        <label for="boa_MWh" class="form-label">BOA MWh:</label>
+                                        <input id="boa_MWh" type="text" class="form-control" th:field="*{boa_MWh}" placeholder="BOA MWh" required>
+                                    </div>
+                                    <div>
+                                        <label for="DA_Price" class="form-label">DA Price:</label>
+                                        <input id="DA_Price" type="text" class="form-control" th:field="*{DA_Price}" placeholder="DA Price" required>
+                                    </div>
+                                    <div>
+                                        <label for="MIP" class="form-label">MIP:</label>
+                                        <input id="MIP" type="text" class="form-control" th:field="*{MIP}" placeholder="MIP" required>
+                                    </div>
+                                    <div>
+                                        <label for="SS_Price" class="form-label">SS Price:</label>
+                                        <input id="SS_Price" type="text" class="form-control" th:field="*{SS_Price}" placeholder="SS Price" required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div>
+                                        <label for="solar_MW" class="form-label">Solar MW:</label>
+                                        <input id="solar_MW" type="text" class="form-control" th:field="*{solar_MW}" placeholder="Solar MW" required>
+                                    </div>
+                                    <div>
+                                        <label for="solar_capacity_mwp" class="form-label">Solar Capacity MWP:</label>
+                                        <input id="solar_capacity_mwp" type="text" class="form-control" th:field="*{solar_capacity_mwp}" placeholder="Solar Capacity MWP" required>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="solar_installedcapacity_mwp" class="form-label">Solar Installed Capacity MWP:</label>
+                                        <input id="solar_installedcapacity_mwp" type="text" class="form-control" th:field="*{solar_installedcapacity_mwp}" placeholder="Solar Installed Capacity MWP" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="wind_MW" class="form-label">Wind MW:</label>
+                                        <input id="wind_MW" type="text" class="form-control" th:field="*{wind_MW}" placeholder="Wind MW" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="dtm" class="form-label">Date Time:</label>
+                                    <input id="dtm" type="datetime-local" class="form-control" th:field="*{dtm}" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Submit"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ======= Home Section ======= -->
         <section id="home">
+            <!-- Toast -->
+            <div aria-live="polite" aria-atomic="true" class="position-relative">
+                <div class="toast-container position-absolute top-0 end-0 p-3" id="toastPlacement">
+                    <div th:if="${successMessage}" class="toast show" id="successToast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto">Success</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body text-success text-uppercase fw-bold">
+                            <p th:text="${successMessage}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="flex-column col-12">
                 <h1>Hybrid Energy Forecasting.</h1>
                 <p class="lead">Forecasting production from wind and solar power plants, and making effective decisions under forecast uncertainty, are essential capabilities in low-carbon energy systems.</p>
@@ -195,7 +272,6 @@
 </div>
 
 <script src="/static/js/solar-energy-scripts.js" th:src="@{/js/solar-energy-scripts.js}"></script>
-
 
 </body>
 </html>
