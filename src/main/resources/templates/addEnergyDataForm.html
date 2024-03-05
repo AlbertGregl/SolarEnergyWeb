@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Energy Data</title>
+</head>
+<body>
+<h1>Add Energy Data</h1>
+<form id="energyDataForm" th:action="@{/mvc/energydata/add.html}" th:object="${energyData}" method="post">
+    <p>BOA MWh: <input type="text" th:field="*{boa_MWh}" placeholder="BOA MWh" required /></p>
+    <p>DA Price: <input type="text" th:field="*{DA_Price}" placeholder="DA Price" required /></p>
+    <p>Date Time: <input type="datetime-local" th:field="*{dtm}" id="dtm" required /></p>
+    <p>MIP: <input type="text" th:field="*{MIP}" placeholder="MIP" required /></p>
+    <p>SS Price: <input type="text" th:field="*{SS_Price}" placeholder="SS Price" required /></p>
+    <p>Solar MW: <input type="text" th:field="*{solar_MW}" placeholder="Solar MW" required /></p>
+    <p>Solar Capacity MWP: <input type="text" th:field="*{solar_capacity_mwp}" placeholder="Solar Capacity MWP" required /></p>
+    <p>Solar Installed Capacity MWP: <input type="text" th:field="*{solar_installedcapacity_mwp}" placeholder="Solar Installed Capacity MWP" required /></p>
+    <p>Wind MW: <input type="text" th:field="*{wind_MW}" placeholder="Wind MW" required /></p>
+
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+</form>
+</body>
+</html>

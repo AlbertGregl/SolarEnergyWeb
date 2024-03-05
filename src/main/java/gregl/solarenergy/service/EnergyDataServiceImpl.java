@@ -70,4 +70,19 @@ public class EnergyDataServiceImpl implements EnergyDataService{
             throw new RuntimeException("Error during data fetch: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
         }
     }
+
+    public void addEnergyData(String xmlData) {
+        String accessToken = fetchToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+        headers.setContentType(MediaType.APPLICATION_XML);
+        HttpEntity<String> entity = new HttpEntity<>(xmlData, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(energyDataApiBaseUrl + "/api/save", HttpMethod.POST, entity, String.class);
+        } catch (HttpClientErrorException e) {
+            throw new RuntimeException("Error during data add: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
+        }
+    }
 }

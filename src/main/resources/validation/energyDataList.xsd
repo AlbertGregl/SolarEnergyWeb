@@ -8,6 +8,7 @@
             <xs:element type="xs:decimal" name="boa_MWh"/>
             <xs:element type="xs:decimal" name="DA_Price"/>
             <xs:element type="xs:dateTime" name="dtm"/>
+            <xs:element type="xs:int" name="id"/>
             <xs:element type="xs:decimal" name="MIP"/>
             <xs:element type="xs:decimal" name="SS_Price"/>
             <xs:element type="xs:decimal" name="solar_MW"/>
@@ -17,5 +18,12 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="energyData" type="EnergyDataType"/>
+    <xs:element name="energyDataList">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="energyData" type="EnergyDataType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
 </xs:schema>
