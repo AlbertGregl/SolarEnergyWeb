@@ -14,6 +14,9 @@
     <script src="/static/js/jquery-3.7.1.min.js" th:src="@{/js/jquery-3.7.1.min.js}"></script>
     <script src="/static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
 
+    <!-- Favicon -->
+    <link rel="icon" href="/static/img/energy-icon.png" th:href="@{/img/energy-icon.png}">
+
 </head>
 
 <body class="d-flex h-100 text-center text-white bg-dark justify-content-center">
@@ -30,7 +33,12 @@
                 </a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#home" class="btn btn-link px-2 link-secondary" onclick="showSection('home')">Home</a></li>
+                    <li>
+                        <a href="#home" class="btn btn-link px-2 link-secondary" onclick="showSection('home')">
+                            <img src="/static/img/energy-icon.png" th:src="@{/img/energy-icon.png}" alt="Home" style="height: 32px; width: 32px; margin-right: 5px;">
+                            Home
+                        </a>
+                    </li>
                     <li><a href="#energy" class="btn btn-link px-2 link-light" onclick="showSection('energy')">Energy Forecast</a></li>
                     <li><a href="#weather" class="btn btn-link px-2 link-light" onclick="showSection('weather')" >Weather Forecast</a></li>
                 </ul>
@@ -141,7 +149,7 @@
                         <form id="dataForm" action="#" method="get" class="row g-3">
                             <div class="col-md-6">
                                 <label for="year" class="form-label">Year</label>
-                                <input type="text" class="form-control" id="year" name="year" placeholder="2023" required>
+                                <input type="text" class="form-control" id="year" name="year" placeholder="2020" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="month" class="form-label">Month</label>

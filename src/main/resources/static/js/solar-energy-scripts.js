@@ -3,7 +3,7 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
     event.preventDefault();
     var year = document.getElementById('year').value;
     var month = document.getElementById('month').value;
-    var url = '/api/data/' + year + '/' + month;
+    var url = '/mvc/energydata/byYearMonth.html?year=' + year + '&month=' + month;
 
     fetch(url)
         .then(response => response.text())
