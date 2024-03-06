@@ -21,7 +21,23 @@
 
 <body class="d-flex h-100 text-center text-white bg-dark justify-content-center">
 <div class="cover-container justify-content-center">
-
+    <!-- Toast -->
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute top-0 end-0 p-3" id="toastPlacement">
+            <div th:if="${successMessage != null || errorMessage != null}" class="toast show" id="successToast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">New Energy Data</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body text-success text-uppercase fw-bold">
+                    <p th:text="${successMessage}"></p>
+                </div>
+                <div class="toast-body text-danger text-uppercase fw-bold">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- ======= Header ======= -->
     <header class="p-3 mb-3 border-bottom">
         <div class="container">
@@ -39,8 +55,8 @@
                             Home
                         </a>
                     </li>
-                    <li><a href="#energy" class="btn btn-link px-2 link-light" onclick="showSection('energy')">Energy Forecast</a></li>
                     <li><a id="energyDataModal" href="#" data-bs-toggle="modal" data-bs-target="#addEnergyDataModal" class="btn btn-info px-2 link-light solar-energy-hidden-section">New Energy Data</a></li>
+                    <li><a href="#energy" class="btn btn-link px-2 link-light" onclick="showSection('energy')">Energy Forecast</a></li>
                     <li><a href="#weather" class="btn btn-link px-2 link-light" onclick="showSection('weather')" >Weather Forecast</a></li>
                 </ul>
 
@@ -139,20 +155,6 @@
 
         <!-- ======= Home Section ======= -->
         <section id="home">
-            <!-- Toast -->
-            <div aria-live="polite" aria-atomic="true" class="position-relative">
-                <div class="toast-container position-absolute top-0 end-0 p-3" id="toastPlacement">
-                    <div th:if="${successMessage}" class="toast show" id="successToast" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="toast-header">
-                            <strong class="me-auto">Success</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body text-success text-uppercase fw-bold">
-                            <p th:text="${successMessage}"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="flex-column col-12">
                 <h1>Hybrid Energy Forecasting.</h1>
                 <p class="lead">Forecasting production from wind and solar power plants, and making effective decisions under forecast uncertainty, are essential capabilities in low-carbon energy systems.</p>
@@ -258,17 +260,23 @@
     </main>
 
     <!-- ======= Footer ======= -->
-    <footer class="mt-auto text-white-50">
-        <div class="container">
-            <p>This is Solar Energy App.</p>
-            <span class="text-muted">Dataset source: Jethro Browell, Sebastian Haglund, Henrik Kälvegren, Edoardo Simioni, Ricardo Bessa, Yi Wang, October 11, 2023, "Hybrid Energy Forecasting and Trading Competition", IEEE Dataport, doi: https://dx.doi.org/10.21227/5hn0-8091.s </span>
-        </div>
+        <footer class="mt-auto text-white-50">
+            <div class="container">
+                <p>This is Solar Energy App.</p>
+                <span class="text-muted">Dataset source: Jethro Browell, Sebastian Haglund, Henrik Kälvegren, Edoardo Simioni, Ricardo Bessa, Yi Wang, October 11, 2023, "Hybrid Energy Forecasting and Trading Competition", IEEE Dataport, doi: https://dx.doi.org/10.21227/5hn0-8091.s </span>
+                <hr>
+                <h6>
+                    AlbertGregl &copy;
+                    <script>document.write( new Date().getFullYear() );</script>
+                </h6>
 
-        <!-- Login button -->
-        <div sec:authorize="!isAuthenticated()">
-            <a class="btn" th:href="@{/oauth2/authorization/okta}">Log In</a>
-        </div>
-    </footer>
+            </div>
+
+            <!-- Login button -->
+            <div sec:authorize="!isAuthenticated()">
+                <a class="btn" th:href="@{/oauth2/authorization/okta}">Log In</a>
+            </div>
+        </footer>
 </div>
 
 <script src="/static/js/solar-energy-scripts.js" th:src="@{/js/solar-energy-scripts.js}"></script>
