@@ -3,6 +3,7 @@ package gregl.solarenergy.controller;
 import gregl.solarenergy.model.EnergyData;
 import gregl.solarenergy.model.EnergyDataList;
 import gregl.solarenergy.service.EnergyDataService;
+import gregl.solarenergy.service.RngValidationService;
 import gregl.solarenergy.validationutil.XmlXsdUtil;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ import java.io.IOException;
 public class EnergyDataController {
 
     private final EnergyDataService energyDataService;
+    private final RngValidationService rngValidationService;
 
 
     @GetMapping("byYearMonth.html")
@@ -30,7 +32,10 @@ public class EnergyDataController {
         String endpoint = "/api/data/" + year + "/" + month;
         try {
             String xmlData = energyDataService.fetchData(endpoint);
+
+            // unmarshalling the data from XML & validating it against the XSD
             EnergyDataList data = XmlXsdUtil.unmarshal(xmlData, EnergyDataList.class);
+
             model.addAttribute("energyDataList", data.getEnergyData());
             return "dataTableView";
         } catch (Exception e) {
@@ -42,8 +47,19 @@ public class EnergyDataController {
     @PostMapping("/add.html")
     public String addEnergyData(@ModelAttribute EnergyData energyData, RedirectAttributes redirectAttributes) {
         try {
+            // TASK 1: marshalling the data to XML & validating it against the XSD
             energyData.setDtm(energyData.getDtmAsInstant());
             String xmlData = XmlXsdUtil.marshal(energyData);
+
+            // TASK 2: validating the XML with the RNG schema
+            boolean isValid = rngValidationService.validateRng(xmlData);
+            if (!isValid) {
+                redirectAttributes.addFlashAttribute(
+                        "errorMessage",
+                        "Invalid energy data.");
+                return "redirect:/";
+            }
+
             energyDataService.addEnergyData(xmlData);
             redirectAttributes.addFlashAttribute(
                     "successMessage",
