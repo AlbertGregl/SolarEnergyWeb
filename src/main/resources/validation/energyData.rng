@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<element name="energyData" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
-    <element name="boa_MWh">
-        <data type="decimal"/>
-    </element>
-    <element name="DA_Price">
-        <data type="decimal"/>
-    </element>
-    <element name="dtm">
-        <data type="dateTime"/>
-    </element>
-    <element name="MIP">
-        <data type="decimal"/>
-    </element>
-    <element name="SS_Price">
-        <data type="decimal"/>
-    </element>
-    <element name="solar_MW">
-        <data type="decimal"/>
-    </element>
-    <element name="solar_capacity_mwp">
-        <data type="decimal"/>
-    </element>
-    <element name="solar_installedcapacity_mwp">
-        <data type="decimal"/>
-    </element>
-    <element name="wind_MW">
-        <data type="decimal"/>
-    </element>
-</element>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+         xmlns:wsdl="http://gregl/soap/data.wsdl">
+
+    <start>
+        <element name="wsdl:energyData">
+            <element name="wsdl:boa_MWh">
+                <data type="decimal"/>
+            </element>
+            <element name="wsdl:DA_Price">
+                <data type="decimal"/>
+            </element>
+            <element name="wsdl:dtm">
+                <data type="dateTime"/>
+            </element>
+            <element name="wsdl:MIP">
+                <data type="decimal"/>
+            </element>
+            <element name="wsdl:SS_Price">
+                <data type="decimal"/>
+            </element>
+            <element name="wsdl:solar_MW">
+                <data type="decimal"/>
+            </element>
+            <element name="wsdl:solar_capacity_mwp">
+                <data type="decimal"/>
+            </element>
+            <element name="wsdl:solar_installedcapacity_mwp">
+                <data type="decimal"/>
+            </element>
+            <element name="wsdl:wind_MW">
+                <data type="decimal"/>
+            </element>
+        </element>
+    </start>
+</grammar>

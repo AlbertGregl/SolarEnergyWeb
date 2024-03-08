@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           attributeFormDefault="unqualified"
-           elementFormDefault="qualified">
+           xmlns:ns2="http://gregl/soap/data.wsdl"
+           targetNamespace="http://gregl/soap/data.wsdl"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
 
     <xs:complexType name="EnergyDataType">
         <xs:sequence>
@@ -17,5 +19,5 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="energyData" type="EnergyDataType"/>
+    <xs:element name="energyData" type="ns2:EnergyDataType"/>
 </xs:schema>
