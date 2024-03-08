@@ -19,9 +19,6 @@ import org.xml.sax.SAXException;
 import jakarta.xml.bind.JAXBException;
 import java.io.IOException;
 
-
-
-
 @Controller
 @AllArgsConstructor
 @RequestMapping("/mvc/energydata")
@@ -34,10 +31,10 @@ public class EnergyDataController {
     @GetMapping("byYearMonth.html")
     public String fetchApiDataByYearMonth(@RequestParam("year") Integer year, @RequestParam("month") Integer month, Model model) {
         try {
-            // Task 4: Fetching data from the SOAP service
+            // Task 3: Fetching data from the SOAP service
             String xmlData = energyDataService.fetchDataFromSoapService(year, month);
 
-            // Task 5: Parsing and validating the XML using JAXB
+            // Task 4: Parsing and validating the XML using JAXB
             GetEnergyDataByYearAndMonthResponse response = XmlXsdUtil.unmarshalEnergyData(xmlData);
             EnergyDataList energyDataList = response.getEnergyDataList();
 
