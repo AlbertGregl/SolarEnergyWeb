@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.HttpClientErrorException;
 
 @Service
-public class EnergyDataServiceImpl implements EnergyDataService{
+public class EnergyDataServiceImpl implements EnergyDataService {
 
     private final RestTemplate restTemplate;
     private final String energyDataApiBaseUrl;
@@ -20,10 +20,10 @@ public class EnergyDataServiceImpl implements EnergyDataService{
     private final String clientSecret;
 
     public EnergyDataServiceImpl(RestTemplate restTemplate,
-                             @Value("${energydata.api.baseurl}") String energyDataApiBaseUrl,
-                             @Value("${token.issuer}") String tokenIssuer,
-                             @Value("${okta.oauth2.client-id}") String clientId,
-                             @Value("${okta.oauth2.client-secret}") String clientSecret) {
+                                 @Value("${energydata.api.baseurl}") String energyDataApiBaseUrl,
+                                 @Value("${token.issuer}") String tokenIssuer,
+                                 @Value("${okta.oauth2.client-id}") String clientId,
+                                 @Value("${okta.oauth2.client-secret}") String clientSecret) {
         this.restTemplate = restTemplate;
         this.energyDataApiBaseUrl = energyDataApiBaseUrl;
         this.tokenIssuer = tokenIssuer;
@@ -31,7 +31,7 @@ public class EnergyDataServiceImpl implements EnergyDataService{
         this.clientSecret = clientSecret;
     }
 
-    private String fetchToken() {
+    public String fetchToken() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject body = new JSONObject();
@@ -56,20 +56,35 @@ public class EnergyDataServiceImpl implements EnergyDataService{
         }
     }
 
-    public String fetchData(String endpoint) {
+    public String fetchDataFromSoapService(int year, int month) {
+        String url = energyDataApiBaseUrl + "/soap/";
+        String body = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:dat=\"http://gregl/soap/data.wsdl\">\n" +
+                "   <soapenv:Header/>\n" +
+                "   <soapenv:Body>\n" +
+                "      <dat:getEnergyDataByYearAndMonthRequest>\n" +
+                "         <dat:year>" + year + "</dat:year>\n" +
+                "         <dat:month>" + month + "</dat:month>\n" +
+                "      </dat:getEnergyDataByYearAndMonthRequest>\n" +
+                "   </soapenv:Body>\n" +
+                "</soapenv:Envelope>";
+
         String accessToken = fetchToken();
 
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_XML);
         headers.setBearerAuth(accessToken);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        HttpEntity<String> request = new HttpEntity<>(body, headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.exchange(energyDataApiBaseUrl + endpoint, HttpMethod.GET, entity, String.class);
+            ResponseEntity<String> response = restTemplate
+                    .exchange(url, HttpMethod.POST, request, String.class);
             return response.getBody();
         } catch (HttpClientErrorException e) {
             throw new RuntimeException("Error during data fetch: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
         }
     }
+
 
     public void addEnergyData(String xmlData) {
         String accessToken = fetchToken();

@@ -1,29 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           attributeFormDefault="unqualified"
-           elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://gregl/soap/data.wsdl"
+           targetNamespace="http://gregl/soap/data.wsdl" elementFormDefault="qualified">
 
-    <xs:complexType name="EnergyDataType">
-        <xs:sequence>
-            <xs:element type="xs:decimal" name="boa_MWh"/>
-            <xs:element type="xs:decimal" name="DA_Price"/>
-            <xs:element type="xs:dateTime" name="dtm"/>
-            <xs:element type="xs:int" name="id"/>
-            <xs:element type="xs:decimal" name="MIP"/>
-            <xs:element type="xs:decimal" name="SS_Price"/>
-            <xs:element type="xs:decimal" name="solar_MW"/>
-            <xs:element type="xs:decimal" name="solar_capacity_mwp"/>
-            <xs:element type="xs:decimal" name="solar_installedcapacity_mwp"/>
-            <xs:element type="xs:decimal" name="wind_MW"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:element name="energyDataList">
+    <xs:element name="getEnergyDataByYearAndMonthResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="energyData" type="EnergyDataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="energyDataList" type="ns2:EnergyDataListType" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+    <xs:complexType name="EnergyDataListType">
+        <xs:sequence>
+            <xs:element name="energyData" type="ns2:EnergyDataType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="EnergyDataType">
+        <xs:sequence>
+            <xs:element name="boa_MWh" type="xs:decimal" />
+            <xs:element name="DA_Price" type="xs:decimal" />
+            <xs:element name="dtm" type="xs:dateTime" />
+            <xs:element name="id" type="xs:int" />
+            <xs:element name="MIP" type="xs:decimal" />
+            <xs:element name="SS_Price" type="xs:decimal" />
+            <xs:element name="solar_MW" type="xs:decimal" />
+            <xs:element name="solar_capacity_mwp" type="xs:decimal" />
+            <xs:element name="solar_installedcapacity_mwp" type="xs:decimal" />
+            <xs:element name="wind_MW" type="xs:decimal" />
+        </xs:sequence>
+    </xs:complexType>
 
 </xs:schema>

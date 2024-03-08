@@ -2,9 +2,11 @@ package gregl.solarenergy.controller;
 
 import gregl.solarenergy.model.EnergyData;
 import gregl.solarenergy.model.EnergyDataList;
+import gregl.solarenergy.model.GetEnergyDataByYearAndMonthResponse;
+import gregl.solarenergy.validationutil.XmlXsdUtil;
 import gregl.solarenergy.service.EnergyDataService;
 import gregl.solarenergy.service.RngValidationService;
-import gregl.solarenergy.validationutil.XmlXsdUtil;
+
 
 import lombok.AllArgsConstructor;
 
@@ -14,8 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
+//import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import java.io.IOException;
+
+
 
 
 @Controller
@@ -29,14 +34,16 @@ public class EnergyDataController {
 
     @GetMapping("byYearMonth.html")
     public String fetchApiDataByYearMonth(@RequestParam("year") Integer year, @RequestParam("month") Integer month, Model model) {
-        String endpoint = "/api/data/" + year + "/" + month;
         try {
-            String xmlData = energyDataService.fetchData(endpoint);
+            // Task 4: Fetching data from the SOAP service
+            String xmlData = energyDataService.fetchDataFromSoapService(year, month);
 
-            // unmarshalling the data from XML & validating it against the XSD
-            EnergyDataList data = XmlXsdUtil.unmarshal(xmlData, EnergyDataList.class);
+            // Task 5: Parsing and validating the XML using JAXB
+            GetEnergyDataByYearAndMonthResponse response = XmlXsdUtil.unmarshalEnergyData(xmlData);
+            EnergyDataList energyDataList = response.getEnergyDataList();
 
-            model.addAttribute("energyDataList", data.getEnergyData());
+            // Task 7: Rendering the data in a table
+            model.addAttribute("energyDataList", energyDataList.getEnergyData());
             return "dataTableView";
         } catch (Exception e) {
             model.addAttribute("error", "Failed to parse and validate XML: " + e.getMessage());
@@ -60,6 +67,7 @@ public class EnergyDataController {
                 return "redirect:/";
             }
 
+            // Task 7: Adding the data to the database
             energyDataService.addEnergyData(xmlData);
             redirectAttributes.addFlashAttribute(
                     "successMessage",

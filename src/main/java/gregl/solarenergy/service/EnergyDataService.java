@@ -1,6 +1,8 @@
 package gregl.solarenergy.service;
 
 public interface EnergyDataService {
-    String fetchData(String endpoint);
+    String fetchDataFromSoapService(int year, int month);
     void addEnergyData(String xmlData);
+
+    String fetchToken();
 }

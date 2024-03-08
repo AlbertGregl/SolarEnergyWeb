@@ -1,15 +1,17 @@
 package gregl.solarenergy.model;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import java.util.List;
 
-@XmlRootElement(name = "energyDataList")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EnergyDataList {
 
+    @XmlElement(name = "energyData", namespace = "http://gregl/soap/data.wsdl")
     private List<EnergyData> energyData;
 
-    @XmlElement(name = "energyData")
     public List<EnergyData> getEnergyData() {
         return energyData;
     }

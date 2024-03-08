@@ -1,5 +1,8 @@
 package gregl.solarenergy.model;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
@@ -7,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -15,25 +18,42 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-@XmlRootElement(name = "energyData")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "energyData", namespace = "http://gregl/soap/data.wsdl")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnergyData {
 
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private BigDecimal boa_MWh;
+
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private BigDecimal DA_Price;
 
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private String dtm;
 
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private Long id;
+
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private BigDecimal MIP;
+
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private BigDecimal SS_Price;
+
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private BigDecimal solar_MW;
+
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private BigDecimal solar_capacity_mwp;
+
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private BigDecimal solar_installedcapacity_mwp;
+
+    @XmlElement(namespace = "http://gregl/soap/data.wsdl")
     private BigDecimal wind_MW;
 
     public EnergyData(String dtm, BigDecimal MIP, BigDecimal solar_MW, BigDecimal solar_capacity_mwp, BigDecimal solar_installedcapacity_mwp, BigDecimal wind_MW, BigDecimal SS_Price, BigDecimal boa_MWh, BigDecimal DA_Price) {
@@ -54,7 +74,6 @@ public class EnergyData {
             Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
             return instant.toString();
         } catch (Exception e) {
-            // Handle or log the error appropriately
             return null;
         }
     }
