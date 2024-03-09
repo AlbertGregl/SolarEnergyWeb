@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -32,7 +33,7 @@ public class XmlRpcClientServiceImpl implements XmlRpcClientService {
                 "</methodCall>";
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_XML);
+        headers.setContentType(new MediaType("text", "xml", StandardCharsets.UTF_8));
         HttpEntity<String> request = new HttpEntity<>(requestXml, headers);
 
         RestTemplate restTemplate = new RestTemplate();
