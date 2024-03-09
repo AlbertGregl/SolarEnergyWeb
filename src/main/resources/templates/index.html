@@ -57,7 +57,7 @@
                     </li>
                     <li><a id="energyDataModal" href="#" data-bs-toggle="modal" data-bs-target="#addEnergyDataModal" class="btn btn-info px-2 link-light solar-energy-hidden-section">New Energy Data</a></li>
                     <li><a href="#energy" class="btn btn-link px-2 link-light" onclick="showSection('energy')">Energy Forecast</a></li>
-                    <li><a href="#weather" class="btn btn-link px-2 link-light" onclick="showSection('weather')" >Weather Forecast</a></li>
+                    <li><a href="#weather" class="btn btn-link px-2 link-light" onclick="showSection('weather')">Weather Forecast</a></li>
                 </ul>
 
                 <div class="dropdown text-end">
@@ -154,6 +154,31 @@
         </div>
 
         <!-- ======= Weather Modal ======= -->
+        <div class="modal fade" id="getTemperatureModal" tabindex="-1" aria-labelledby="getTemperatureModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="getTemperatureModalLabel">Get Temperature from DHMZ</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/mvc/weather/temperature.html}" method="post">
+                            <div class="mb-3">
+                                <label for="city" class="form-label">City:</label>
+                                <select id="city" name="city" class="form-select" required>
+                                    <option value="">Choose a city</option>
+                                    <option th:each="cityName : ${cityNames}" th:value="${cityName}" th:text="${cityName}"></option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Get Temperature"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- ======= Home Section ======= -->
         <section id="home">
@@ -256,6 +281,9 @@
         <section id="weather" class="solar-energy-hidden-section">
             <div class="flex-column col-12">
                 <h1>Weather Forecast</h1>
+                <p class="lead">
+                    <a href="#getTemperatureModal" class="btn btn-lg btn-secondary fw-bold border-white" data-bs-toggle="modal" data-bs-target="#getTemperatureModal">Get Temperature</a>
+                </p>
             </div>
         </section>
 
