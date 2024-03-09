@@ -41,9 +41,9 @@ public class XmlRpcClientServiceImpl implements XmlRpcClientService {
         return response.getBody();
     }
 
-    @Override
     public String getTemperature(String city) {
-        return performXmlRpcCall("get_temperature", city);
+        String xmlResponse = performXmlRpcCall("get_temperature", city);
+        return XmlRpcUtil.parseTemperatureFromResponse(xmlResponse);
     }
 
     @Override

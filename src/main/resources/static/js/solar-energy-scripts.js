@@ -5,6 +5,7 @@ if (document.querySelector('.toast.show')) {
     toast.show();
 }
 
+
 /* table rendering in the fragment */
 document.getElementById('dataForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -21,6 +22,33 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
             var contentLocation = document.querySelector("#energyDataTable");
             if (newContent && contentLocation) {
                 contentLocation.innerHTML = newContent.innerHTML;
+            } else {
+                console.error('Could not find the content to replace.');
+            }
+        }).catch(error => {
+        console.error('Error fetching the data:', error);
+    });
+});
+
+document.getElementById('weatherForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var city = document.getElementById('city').value;
+    var url = '/mvc/weather/temperature.html?city=' + city;
+
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(html, 'text/html');
+            var newContent = doc.body.firstChild;
+            var contentLocation = document.querySelector("#temperatureResult");
+            if (newContent && contentLocation) {
+                contentLocation.innerHTML = newContent.innerHTML;
+                var modalElement = document.getElementById('getTemperatureModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
             } else {
                 console.error('Could not find the content to replace.');
             }

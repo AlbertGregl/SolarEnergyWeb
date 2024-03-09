@@ -59,8 +59,11 @@
                     <li><a href="#energy" class="btn btn-link px-2 link-light" onclick="showSection('energy')">Energy Forecast</a></li>
                     <li><a href="#weather" class="btn btn-link px-2 link-light" onclick="showSection('weather')">Weather Forecast</a></li>
                 </ul>
-
+                <div id="temperatureResult">
+                    <div th:replace="~{temperatureView :: ${temperature}}"></div>
+                </div>
                 <div class="dropdown text-end">
+
                     <div sec:authorize="isAuthenticated()">
                         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
                            data-bs-toggle="dropdown" aria-expanded="false">
@@ -162,7 +165,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{/mvc/weather/temperature.html}" method="post">
+                        <form id="weatherForm" th:action="@{/mvc/weather/temperature.html}" method="get">
                             <div class="mb-3">
                                 <label for="city" class="form-label">City:</label>
                                 <select id="city" name="city" class="form-select" required>
@@ -171,7 +174,7 @@
                                 </select>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button id="closeTemperatureModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <input type="submit" class="btn btn-primary" value="Get Temperature"/>
                             </div>
                         </form>
